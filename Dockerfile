@@ -21,19 +21,21 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy the project files to the working directory
+RUN usermod -u 1000 www-data
+
 COPY ./src .
-
-# Install Laravel dependencies
-RUN composer install --no-dev
-
+# # Install Laravel dependencies
+# RUN composer install --no-dev
+RUN chown -R www-data:www-data .
 # Set permissions
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Generate the Laravel application key
-RUN php artisan key:generate
-
+# # Generate the Laravel application key
+# RUN php artisan key:generate
 # Expose port 9000 (PHP-FPM)
 EXPOSE 9000
 
 # Start PHP-FPM
 CMD ["php-fpm"]
+
+# ENTRYPOINT [ "sh" ,"/var/www/app.sh" ]
