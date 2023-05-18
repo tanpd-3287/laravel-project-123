@@ -6,8 +6,8 @@ services:
       dockerfile: Dockerfile
     container_name: app
     # command: ./app.sh
-    volumes:
-      - ./src:/var/www
+    #volumes:
+    # - ./src:/var/www
     networks:
       - laravel
   nginx:
